@@ -1,0 +1,97 @@
+version: '3.1'
+services:
+  test:
+    container_name: test
+    image: test
+    build:
+      context: ./
+      dockerfile: test.dockerfile
+
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    restart: always
+    environment:
+      - discovery.type=single-node
+    ports:
+      - 9200:9200
+    depends_on:
+      - test
+
+  logstash:
+    container_name: logstash
+    image: docker.elastic.co/logstash/logstash:7.6.2
+    restart: always
+    links:
+      - elasticsearch
+    volumes:
+      - ./logstash.conf:/etc/logstash/logstash.conf
+    command: logstash -f /etc/logstash/logstash.conf
+    ports:
+      - 12001:12201/udp
+      - 12002:12201/udp
+      - 12003:12201/udp
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.6.2
+    restart: always
+    ports:
+      - 5601:5601
+    depends_on:
+      - logstash
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    env_file: postgres.env
+    ports:
+      - 9876:5432
+    depends_on:
+      - kibana
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://host.docker.internal:12001
+        tag: postgres
+
+  server:
+    container_name: server
+    image: server
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 4444:4000
+    depends_on:
+      - postgres
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://host.docker.internal:12002
+        tag: server
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    restart: always
+    environment:
+      - CONFIG_VAR=sample
+    build:
+      context: ./
+      dockerfile: nginx.dockerfile
+    ports:
+      - 6174:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - server
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://host.docker.internal:12003
+        tag: nginx

@@ -1,0 +1,37 @@
+stages:
+  - test
+  - e2e
+  - build
+
+.docker:
+  tags:
+    - dind
+
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+test:
+  extends: .docker
+  stage: test
+  script:
+    - echo "Start testing commands"
+    - docker build -t test -f test.dockerfile .
+    - docker run test
+
+e2e:
+  extends: .docker
+  stage: e2e
+  script:
+    - echo "Start testing commands"
+    - docker build -t e2e -f e2e.dockerfile .
+    - docker run e2e
+
+build:
+  extends: .docker
+  stage: build
+  dependencies:
+    - test
+    - e2e
+  script:
+    - docker build -t gitlab.akvelon.net:9444/denis.rumyantsev/online-shop .
+    - docker push gitlab.akvelon.net:9444/denis.rumyantsev/online-shop

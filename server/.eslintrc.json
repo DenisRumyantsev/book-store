@@ -1,0 +1,19 @@
+{
+    "env": {
+        "commonjs": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "standard"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 12
+    },
+    "rules": {
+        "indent": ["error", 4],
+        "semi": ["error", "always"],
+        "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+        "curly": ["error", "all"]
+    }
+}

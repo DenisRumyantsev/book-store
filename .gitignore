@@ -1,0 +1,12 @@
+server/node_modules/
+server/.env
+server/public/
+server/winston/logs/
+client/.eslintcache
+postgres.env
+test/node_modules/
+E2E/node_modules/
+E2E/cypress/plugins/
+E2E/cypress/screenshots/
+E2E/cypress/support/
+E2E/cypress/videos/

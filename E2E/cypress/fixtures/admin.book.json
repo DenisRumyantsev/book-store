@@ -1,0 +1,15 @@
+{
+    "isbn": "7418529639713",
+    "authorId": "9fd5699a-0ea1-4a69-938d-c08dc62d5e6b",
+    "categoryId": "807a4393-49e6-46e7-b919-d3393a52bc9f",
+    "title": "Test Book",
+    "year": "1987",
+    "price": "65.43",
+    "count": "21",
+    "annotation": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+    "update": {
+        "price": "12.34",
+        "count": "56",
+        "annotation": "This book has been created and updated by cypress."
+    }
+}
