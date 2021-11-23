@@ -5,6 +5,7 @@ server/winston/logs/
 client/.eslintcache
 postgres.env
 test/node_modules/
+test/winston/
 E2E/node_modules/
 E2E/cypress/plugins/
 E2E/cypress/screenshots/

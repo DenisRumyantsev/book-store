@@ -45,6 +45,10 @@ Deployed application address: http://localhost:6174
 
 You can view logs here: http://localhost:5601
 
+## How to run application without deploying.
+
+In `server/.env` file, swap `PGDATABASE` and `__DATABASE`, as well as `PGHOST` and `__HOST`.
+
 ## Next for developers.
 
 You can insert heartbeat into input in Logstash configuration file to check Logstash availability.
