@@ -1,12 +1,57 @@
-Deployed application address: http://o70.rp.ru:6174
+## How to deploy application.
 
-You can view logs here: http://o70.rp.ru:5601
+Before deploy, create next files:
 
-Next for developers.
+* `postgres.env` template (in root directory):
+
+```
+POSTGRES_PASSWORD = '<password>'
+
+```
+
+* `server/.env` template (in server directory):
+
+```
+PGUSER = 'postgres'
+PGPASSWORD = '<password>'
+PGDATABASE = 'postgres'
+__DATABASE = 'book_shop_seq'
+PGHOST = 'postgres'
+__HOST = 'localhost'
+PORT = 5432
+PORT = 4000
+
+```
+
+To deploy application, run:
+
+```
+docker-compose up --build
+```
+
+To provide dump into postgres container, run:
+
+```
+psql -U postgres -p 9876 postgres < dump.sql
+```
+
+To provide images into server container, run:
+
+```
+docker cp server/public/. server:/app/public
+```
+
+Deployed application address: http://localhost:6174
+
+You can view logs here: http://localhost:5601
+
+## Next for developers.
 
 You can insert heartbeat into input in Logstash configuration file to check Logstash availability.
 
+```
 heartbeat {
   interval => 5
   message  => 'Hello from Logstash 💓'
 }
+```
