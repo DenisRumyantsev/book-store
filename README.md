@@ -6,7 +6,6 @@ Before deploy, create next files:
 
 ```
 POSTGRES_PASSWORD = '<password>'
-
 ```
 
 * `server/.env` template (in server directory):
@@ -20,7 +19,6 @@ PGHOST = 'postgres'
 __HOST = 'localhost'
 PORT = 5432
 PORT = 4000
-
 ```
 
 To deploy application, run:
